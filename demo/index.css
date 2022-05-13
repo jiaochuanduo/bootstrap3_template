@@ -1,0 +1,109 @@
+body {
+    height: 100vh;
+    background-color: #333333;
+    color: #f3f3f3;
+    /* color: #fff;
+    background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+    background-size: 400% 400%;
+    -webkit-animation: Gradient 15s ease infinite;
+    -moz-animation: Gradient 15s ease infinite;
+    animation: Gradient 15s ease infinite; */
+}
+
+/* @-webkit-keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@-moz-keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0% 50%
+    }
+}
+
+@keyframes Gradient {
+    0% {
+        background-position: 0% 50%
+    }
+    50% {
+        background-position: 100% 50%
+    }
+    100% {
+        background-position: 0% 50%
+    }
+} */
+.banner {
+    padding: 15px;
+    position: relative;
+    top: -2px;
+}
+
+.content {
+    display: flex;
+    height: fill-available;
+    height: -moz-available;
+    height: -webkit-fill-available;
+}
+
+.nav-left {
+    border-radius: 0.45rem;
+    margin-left: 15px;
+    background-color: #3f3f3f;
+    min-width: 180px;
+    overflow-y: auto;
+}
+
+.line {
+    border-top: 4px dashed #222;
+}
+
+.nav-item {
+    padding: 5px 15px 5px 15px;
+    border-bottom: 0.2rem #333 solid;
+}
+
+.nav-item:hover {
+    background-color: #222 !important;
+    cursor: pointer;
+}
+
+.nav-item-hover {
+    background-color: #222 !important;
+}
+
+.nav-item-select {
+    background-color: #666;
+}
+
+.doc {
+    border-radius: 0.45rem;
+    margin-left: 15px;
+    margin-right: 15px;
+    background-color: #3f3f3f;
+    width: fill-available;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    overflow-y: auto;
+    padding: 15px;
+}
+
+.run-demo {
+    margin-right: 20px;
+}
+
+.doc-item p, .item {
+    margin-left: 15px;
+}
