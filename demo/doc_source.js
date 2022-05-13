@@ -6,6 +6,11 @@ const source_json = {
     "docs": {
         "模态框": {
             "title": "模态框模板", 
+            "desc": `
+使用前需要引入template.js, <script type="text/javascript" src="./template/js/template.js"></script>
+\r\n或引入modal.js, <script type="text/javascript" src="./template/js/template.js"></script>
+\r\n注意: 当引入template.js时不能引用modal.js
+            `,
             "items": [
                 {
                     "desc": {    
@@ -16,7 +21,20 @@ const source_json = {
                         "blocks": [
                             {
                                 "title": "示例",
-                                "demo": "const modal = create_modal('提示', '我是模态框');"
+                                "demo": `
+// 引用template.js时可使用如下代码:
+// 创建模板对象
+const bs3t = new Template();
+// 创建模态框对象
+let modal = bs3t.buildModal().buildSimpleModal('提示', '我是一个基础的模态框').build();
+// 也可使用 bs3t.modal.open();
+modal.open();
+
+// 引用modal.js时可使用如下代码:
+// let modal = new Modal();
+// modal = modal.buildSimpleModal('提示', '我是一个基础的模态框');
+// modal.open();
+`
                             },
                             {
                                 "title": "参数",

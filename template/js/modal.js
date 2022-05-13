@@ -36,6 +36,7 @@ class Modal{
         return temp;
     }
     open() {
+        $('.bs3t-modal').remove();
         const modal = `
             <div class="modal fade bs3t-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
@@ -55,26 +56,29 @@ class Modal{
         `;
         this._modal_dom = $(modal);
         if (this.isStatic) {
-            this._modal_dom.modal('show');
-        } else {
             this._modal_dom.modal({
                 show: true,
-                backdrop: 'static',
+                backdrop: 'false',
                 keyboard: false
             });
+        } else {
+            this._modal_dom.modal('show');
         }
         if (this.showEvent) {
-            this._modal_dom.on('shown.bs.modal', function(showEvent) {
-                console.log(showEvent);
+            Window.prototype.modalShowEvent = this.showEvent;
+            this._modal_dom.on('shown.bs.modal', function() {
+                Window.prototype.modalShowEvent();
             });
         }
         if (this.hideEvent) {
-            this._modal_dom.on('hidden.bs.modal', this.hideEvent());
+            Window.prototype.modalHideEvent = this.hideEvent;
+            this._modal_dom.on('hidden.bs.modal', function() {
+                Window.prototype.modalHideEvent();
+            });
         }
     }
     close() {
         this._modal_dom.modal('hide');
-        this._modal_dom.remove();
     }
     build() {
         return this;

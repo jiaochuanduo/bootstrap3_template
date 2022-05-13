@@ -24,12 +24,30 @@ $(function() {
 
     // 运行Demo代码
     $('.doc').on('click', '.run-demo', function() {
-        eval($(this).parent().find('.demo-code-pre').text().trim());
+        const script = document.createElement('script');
+        script.innerHTML = `
+            (function() {
+                ${$(this).parent().find('.demo-code-pre').data('source')}
+            })();
+        `;
+        document.head.appendChild(script);
+        $(script).remove();
     });
 
-    // $('.doc').on('keyup', '.demo-code-pre', function() {
-
-    // });    
+    // 重新构建代码块
+    $('.doc').on('blur', '.demo-code-pre', function() {
+        let code = '';
+        $(this).find('li').each(function() {
+            code += $(this).text() + '\n';
+        });
+        const new_pre = `
+            <pre class="prettyprint linenums demo-code-pre js" contenteditable="true" data-source="${code}">${html2Escape(code.trim())}</pre>
+        `;
+        const parent = $(this).parent();
+        $(this).remove();
+        parent.append(new_pre);
+        PR.prettyPrint();
+    });
 });
 
 /**
@@ -41,6 +59,7 @@ function buildDoc(key) {
     let dom = `
         <div class="title">
             <h2>${doc.title}</h2>
+            <p style="margin-left: 15px;">${html2Escape(doc.desc).replace(/\r\n/g, '<br>')}</p>
         </div>
     `;
     let item_dom = '';
@@ -52,7 +71,7 @@ function buildDoc(key) {
                 block_item_dom = `
                     <div class="well well-sm clearfix demo">
                         <div class="demo-code">
-                            <pre class="prettyprint linenums demo-code-pre" contenteditable="true">${html2Escape(block.demo)}</pre>
+                            <pre class="prettyprint linenums demo-code-pre js" contenteditable="true" data-source="${block.demo}">${html2Escape(block.demo)}</pre>
                         </div>
                         <button type="button" class="btn btn-success pull-right run-demo">运行</button>
                     </div>
@@ -107,6 +126,11 @@ function buildDoc(key) {
     PR.prettyPrint();
 }
 
+/**
+ * 替换html符号
+ * @param {string} sHtml html代码
+ * @returns 
+ */
 function html2Escape(sHtml) {
     return sHtml.replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});
 }

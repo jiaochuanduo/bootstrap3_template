@@ -7,7 +7,6 @@ class Template {
         this.modal = new Modal();
         return this.modal;
     }
-
 }
 const importJsList = [
     'template/js/modal.js'
