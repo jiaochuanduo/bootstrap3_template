@@ -5,6 +5,7 @@ $(function() {
         $('.nav-left').append(`
             <div class="nav-item">
                 <h5>${nav}</h5>
+                <span class="glyphicon glyphicon-chevron-down nav-fold"></span>
             </div>
         `);
     }
@@ -16,7 +17,37 @@ $(function() {
     $('.nav-left').on('click', '.nav-item', function() {
         $('.nav-item-select').removeClass('nav-item-select');
         $(this).addClass('nav-item-select');
-        buildDoc($(this).text().trim());
+        buildDoc($(this).find('h5').text().trim());
+    });
+
+    // 绑定导航条下拉点击事件
+    $('.nav-left').on('click', '.nav-fold', function() {
+        const key = $(this).parent().find('h5').text().trim();
+        if (-1 == $(this).attr('class').indexOf('up')) {
+            const doc = source_json.docs[key];
+            let dom = '';
+            let flag = false;
+            for (const item of doc.items) {
+                dom += `
+                    <div class="nav-item-title ${flag ? '': 'nav-item-title-select'}" nav-name="${key}">
+                        <h5>${item.desc.title}</h5>
+                    </div>
+                `;
+                flag = true;
+            }
+            $(this).parent().after(dom);
+            $(this).attr('class', 'glyphicon glyphicon-chevron-up nav-fold');
+        } else {
+            console.log($(this).parents('.nav-left'));
+            $(this).parents('.nav-left').find(`.nav-item-title[nav-name="${key}"]`).remove();
+            $(this).attr('class', 'glyphicon glyphicon-chevron-down nav-fold');
+        }
+    });
+
+    $('.nav-left').on('click', '.nav-item-title', function() {
+        $('.nav-item-title-select').removeClass('nav-item-title-select');
+        $(this).addClass('nav-item-title-select');
+        $(`#${$(this).text().trim()}`).get(0).scrollIntoView();
     });
 
     // 默认显示第一个文档
@@ -59,7 +90,7 @@ function buildDoc(key) {
     let dom = `
         <div class="title">
             <h2>${doc.title}</h2>
-            <p style="margin-left: 15px;">${html2Escape(doc.desc).replace(/\r\n/g, '<br>')}</p>
+            ${'desc' in doc ? `<pre class="prettyprint linenums demo-code-pre js" style="margin-left: 15px;">${html2Escape(doc.desc)}</pre>` : ''}
         </div>
     `;
     let item_dom = '';
@@ -73,7 +104,9 @@ function buildDoc(key) {
                         <div class="demo-code">
                             <pre class="prettyprint linenums demo-code-pre js" contenteditable="true" data-source="${block.demo}">${html2Escape(block.demo)}</pre>
                         </div>
-                        <button type="button" class="btn btn-success pull-right run-demo">运行</button>
+                        <div style="width: 95%; margin: 0 auto;">
+                            <button type="button" class="btn btn-success pull-right run-demo">运行</button>
+                        </div>
                     </div>
                 `;
             } else if ('params' in block) {
@@ -109,7 +142,7 @@ function buildDoc(key) {
             `;
         }
         item_dom += `
-            <div class="doc-item">
+            <div class="doc-item" id="${item.desc.title}">
                 <div class="desc">
                     <h3>${item.desc.title}</h3>
                     <p>${item.desc.content}</p>

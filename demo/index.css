@@ -70,9 +70,16 @@ body {
     border-top: 4px dashed #222;
 }
 
+.line:last-child {
+    display: none;
+}
+
 .nav-item {
     padding: 5px 15px 5px 15px;
     border-bottom: 0.2rem #333 solid;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .nav-item:hover {
@@ -88,6 +95,24 @@ body {
     background-color: #666;
 }
 
+.nav-item-title {
+    padding: 5px 15px 5px 30px;
+    border-bottom: 0.2rem #333 solid;
+}
+
+.nav-item-title:hover {
+    background-color: #222 !important;
+    cursor: pointer;
+}
+
+.nav-item-title-select {
+    background-color: #999;
+}
+
+.nav-fold:hover {
+    color: #666 !important;
+}
+
 .doc {
     border-radius: 0.45rem;
     margin-left: 15px;
@@ -98,10 +123,6 @@ body {
     width: -webkit-fill-available;
     overflow-y: auto;
     padding: 15px;
-}
-
-.run-demo {
-    margin-right: 20px;
 }
 
 .doc-item p, .item {

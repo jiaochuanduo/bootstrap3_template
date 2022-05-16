@@ -2,7 +2,7 @@ class Modal{
     constructor() {
         this.title = "";
         this.body = "";
-        this.isStatic = true;
+        this.isStatic = false;
         this.showEvent = null;
         this.hideEvent = null;
         this._modal_dom = null;
@@ -58,7 +58,7 @@ class Modal{
         if (this.isStatic) {
             this._modal_dom.modal({
                 show: true,
-                backdrop: 'false',
+                backdrop: 'static',
                 keyboard: false
             });
         } else {
