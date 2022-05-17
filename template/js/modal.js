@@ -13,7 +13,7 @@ class Modal{
         return this;
     }
     buildStaticModal(titl, body) {
-        this.buildSimpleModal(titl, body).isStatic = false;
+        this.buildSimpleModal(titl, body).isStatic = true;
         return this;
     }
     buildShowEventModal(titl, body, isStatic, event) {

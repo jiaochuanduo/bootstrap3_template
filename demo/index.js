@@ -38,15 +38,18 @@ $(function() {
             $(this).parent().after(dom);
             $(this).attr('class', 'glyphicon glyphicon-chevron-up nav-fold');
         } else {
-            console.log($(this).parents('.nav-left'));
             $(this).parents('.nav-left').find(`.nav-item-title[nav-name="${key}"]`).remove();
             $(this).attr('class', 'glyphicon glyphicon-chevron-down nav-fold');
         }
     });
 
+    // 子菜单点击事件
     $('.nav-left').on('click', '.nav-item-title', function() {
         $('.nav-item-title-select').removeClass('nav-item-title-select');
         $(this).addClass('nav-item-title-select');
+        if ($(this).attr('nav-name') != $('.doc').data('key')) {
+            buildDoc(($(this).attr('nav-name')));
+        }
         $(`#${$(this).text().trim()}`).get(0).scrollIntoView();
     });
 
@@ -58,7 +61,7 @@ $(function() {
         const script = document.createElement('script');
         script.innerHTML = `
             (function() {
-                ${$(this).parent().find('.demo-code-pre').data('source')}
+                ${$(this).parents('.demo').find('.demo-code-pre').data('source')}
             })();
         `;
         document.head.appendChild(script);
@@ -155,6 +158,7 @@ function buildDoc(key) {
         `;
     }
     dom += item_dom;
+    $('.doc').data('key', key);
     $('.doc').html(dom);
     PR.prettyPrint();
 }

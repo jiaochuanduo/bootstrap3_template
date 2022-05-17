@@ -109,6 +109,10 @@ body {
     background-color: #999;
 }
 
+.nav-fold {
+    padding: 5px;
+}
+
 .nav-fold:hover {
     color: #666 !important;
 }
