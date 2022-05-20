@@ -58,14 +58,22 @@ $(function() {
 
     // 运行Demo代码
     $('.doc').on('click', '.run-demo', function() {
-        const script = document.createElement('script');
-        script.innerHTML = `
-            (function() {
-                ${$(this).parents('.demo').find('.demo-code-pre').data('source')}
-            })();
-        `;
-        document.head.appendChild(script);
-        $(script).remove();
+        const demo = $(this).parents('.demo');
+        const demo_code_pre = demo.find('.demo-code-pre');
+        
+        if ('result' == demo_code_pre.data('type')) {
+            demo.next('.result').find('div').html(demo_code_pre.data('source'));
+            demo.next('.result').show();
+        } else {
+            const script = document.createElement('script');
+            script.innerHTML = `
+                (function() {
+                    ${demo_code_pre.data('source')}
+                })();
+            `;
+            document.head.appendChild(script);
+            $(script).remove();
+        }
     });
 
     // 重新构建代码块
@@ -105,7 +113,7 @@ function buildDoc(key) {
                 block_item_dom = `
                     <div class="well well-sm clearfix demo">
                         <div class="demo-code">
-                            <pre class="prettyprint linenums demo-code-pre js" contenteditable="true" data-source="${block.demo}">${html2Escape(block.demo)}</pre>
+                            <pre class="prettyprint linenums demo-code-pre js" contenteditable="true" data-type="${'result' in block ? 'result': 'none'}" data-source="${block.demo}">${html2Escape(block.demo)}</pre>
                         </div>
                         <div style="width: 95%; margin: 0 auto;">
                             <button type="button" class="btn btn-success pull-right run-demo">运行</button>
@@ -137,6 +145,13 @@ function buildDoc(key) {
                             ${t_body}
                         </tbody>
                     </table>
+                `;
+            }
+            if ('result' in block) {
+                block_item_dom += `
+                    <div class="well well-sm clearfix result" style="display: none;">
+                        <div></div>
+                    </div>
                 `;
             }
             block_dom += `

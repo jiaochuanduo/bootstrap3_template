@@ -132,3 +132,9 @@ body {
 .doc-item p, .item {
     margin-left: 15px;
 }
+
+.result {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
